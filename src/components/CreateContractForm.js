@@ -12,8 +12,6 @@ function CreateContractForm() {
       flatNumber: '',
       contractDurationInNumbers: '',
       initialDateNumber: '',
-      //initialMonth: '',
-      //initialYear: '',
       rentalFee: '',
       rentalFeeNumber: '',
       payDayNumber: '',
@@ -23,19 +21,63 @@ function CreateContractForm() {
       accountName: '',
       numberOfTenantsInNumbers: '',
       signingDate: '',
-      /*signingMonth: '',
-      signingYear: '',
-      */
       // Continúa agregando campos para cada atributo del JSON
     });
 
     const [initialDate, setInitialDate] = useState(new Date());
     const [signingDate, setSigningDate] = useState(new Date());
   
-    const handleSubmit = (event) => {
-      event.preventDefault();
-      // Aquí manejarás el envío de datos al backend
-    };
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+      
+        const contractData = {
+          tenant: {
+            name: formData.tenantName,
+            idNumber: formData.tenantIdNumber,
+            idIssuePlace: formData.tenantIdIssuePlace
+          },
+          apartment: {
+            flatNumber: formData.flatNumber
+          },
+          contractDurationInNumbers: formData.contractDurationInNumbers,
+          initialDateNumber: initialDate.getDate(),
+          initialMonth: initialDate.toLocaleString('default', { month: 'long' }).toUpperCase(),
+          initialYear: initialDate.getFullYear(),
+          rentalFee: formData.rentalFee,
+          rentalFeeNumber: formData.rentalFeeNumber,
+          payDayNumber: formData.payDayNumber,
+          payLimitDayNumber: formData.payLimitDayNumber,
+          accountType: formData.accountType,
+          bankName: formData.bankName,
+          accountName: formData.accountName,
+          numberOfTenantsInNumbers: formData.numberOfTenantsInNumbers,
+          signingDayNumber: signingDate.getDate(),
+          signingMonth: signingDate.toLocaleString('default', { month: 'long' }).toUpperCase(),
+          signingYear: signingDate.getFullYear()
+        }
+        console.log(contractData);
+      
+        try {
+            console.log(contractData);
+          const response = await fetch('http://localhost:8080/contracts', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(contractData),
+          });
+      
+          if (!response.ok) {
+            throw new Error('Error en la solicitud');
+          }
+      
+          const responseData = await response.json();
+          console.log(responseData);
+          // Aquí puedes manejar acciones posteriores al éxito del envío
+        } catch (error) {
+          console.error('Error al enviar el formulario:', error);
+        }
+      };
   
     return (
       <form onSubmit={handleSubmit}>
