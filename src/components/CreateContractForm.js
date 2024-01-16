@@ -3,6 +3,7 @@ import './CreateContractForm.css';
 import { formatNumberWithDots } from '../utils/utils';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { useNavigate } from 'react-router-dom';
 
 function CreateContractForm() {
     const [formData, setFormData] = useState({
@@ -26,6 +27,11 @@ function CreateContractForm() {
 
     const [initialDate, setInitialDate] = useState(new Date());
     const [signingDate, setSigningDate] = useState(new Date());
+
+    const navigate  = useNavigate();
+    const handleBackClick = () => {
+        navigate('/'); // Redirige a la página inicial
+    };
   
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -40,9 +46,9 @@ function CreateContractForm() {
             flatNumber: formData.flatNumber
           },
           contractDurationInNumbers: formData.contractDurationInNumbers,
-          initialDateNumber: initialDate.getDate(),
+          initialDateNumber: initialDate.getDate().toString(),
           initialMonth: initialDate.toLocaleString('default', { month: 'long' }).toUpperCase(),
-          initialYear: initialDate.getFullYear(),
+          initialYear: initialDate.getFullYear().toString(),
           rentalFee: formData.rentalFee,
           rentalFeeNumber: formData.rentalFeeNumber,
           payDayNumber: formData.payDayNumber,
@@ -51,9 +57,9 @@ function CreateContractForm() {
           bankName: formData.bankName,
           accountName: formData.accountName,
           numberOfTenantsInNumbers: formData.numberOfTenantsInNumbers,
-          signingDayNumber: signingDate.getDate(),
+          signingDayNumber: signingDate.getDate().toString(),
           signingMonth: signingDate.toLocaleString('default', { month: 'long' }).toUpperCase(),
-          signingYear: signingDate.getFullYear()
+          signingYear: signingDate.getFullYear().toString()
         }
         console.log(contractData);
       
@@ -104,7 +110,7 @@ function CreateContractForm() {
                 />
             </div>
             <div className='input-group'>
-                <label htmlFor="tenantIdIssuePlace">Cedula:</label>
+                <label htmlFor="tenantIdIssuePlace">Lugar expedicion documento:</label>
                 <input
                     type="text"
                     id="tenantIdIssuePlace"
@@ -236,6 +242,7 @@ function CreateContractForm() {
         </div>
         {/* Continúa agregando inputs para cada campo */}
         <button type="submit">Crear Contrato</button>
+        <button type="button" onClick={handleBackClick}>Volver</button>
       </form>
     );
   }
