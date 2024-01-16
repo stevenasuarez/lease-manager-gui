@@ -1,0 +1,39 @@
+.section {
+    border: 2px solid black; /* Ajusta el grosor del borde según prefieras */
+    padding: 20px;
+    margin: 10px 0;
+    min-height: 100px;
+  }
+
+  label {
+    display: block; /* Hace que el label ocupe toda la línea */
+    margin-bottom: 5px; /* Espacio entre el label y el input */
+    margin-right: 10px; /* Aumenta el espacio entre el label y el input */
+  }
+  
+  input {
+    display: block;
+    margin: 10px 0;
+  }
+  
+  button {
+    margin-top: 20px;
+    width: 100%;
+    padding: 10px;
+    background-color: black;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+
+  form {
+    width: 50%;
+    margin: auto;
+  }
+
+  .input-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    p.solid {border-style: solid;}
+  }

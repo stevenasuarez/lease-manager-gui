@@ -1,0 +1,27 @@
+.navigation {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  .button {
+    background-color: white; /* Color de fondo blanco */
+    color: black; /* Texto en color negro */
+    padding: 15px 32px;
+    font-size: 16px;
+    border: 2px solid black; /* Borde negro */
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .button:hover {
+    background-color: black;
+    color: white;
+  }
+  
+  .button:active {
+    transform: scale(0.98); /* Efecto de click */
+  }
