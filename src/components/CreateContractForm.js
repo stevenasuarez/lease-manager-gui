@@ -85,10 +85,8 @@ function CreateContractForm() {
           signingMonth: signingDate.toLocaleString('default', { month: 'long' }).toUpperCase(),
           signingYear: signingDate.getFullYear().toString()
         }
-        console.log(contractData);
       
         try {
-            console.log(contractData);
           const response = await fetch('http://localhost:8080/contracts', {
             method: 'POST',
             headers: {
