@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './CreateContractForm.css';
 import { formatNumberWithDots } from '../utils/utils';
 import DatePicker from 'react-datepicker';
@@ -28,6 +28,25 @@ function CreateContractForm() {
     const [initialDate, setInitialDate] = useState(new Date());
     const [signingDate, setSigningDate] = useState(new Date());
 
+    const [apartments, setApartments] = useState([]);
+
+    useEffect(() => {
+        const fetchApartments = async () => {
+            try {
+                const response = await fetch('http://localhost:8080/apartments/occupied/false');
+                if (!response.ok) {
+                    throw new Error('Error al cargar los apartamentos');
+                }
+                const data = await response.json();
+                setApartments(data);
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        };
+
+        fetchApartments();
+    }, []);
+
     const navigate  = useNavigate();
     const handleBackClick = () => {
         navigate('/'); // Redirige a la página inicial
@@ -35,6 +54,11 @@ function CreateContractForm() {
   
     const handleSubmit = async (event) => {
         event.preventDefault();
+
+        let flatNumberOnly = formData.flatNumber;
+        if (formData.flatNumber && formData.flatNumber.includes("Apto:")) {
+            flatNumberOnly = formData.flatNumber.split(",")[0].split(":")[1].trim();
+        }
       
         const contractData = {
           tenant: {
@@ -43,7 +67,7 @@ function CreateContractForm() {
             idIssuePlace: formData.tenantIdIssuePlace
           },
           apartment: {
-            flatNumber: formData.flatNumber
+            flatNumber: flatNumberOnly
           },
           contractDurationInNumbers: formData.contractDurationInNumbers,
           initialDateNumber: initialDate.getDate().toString(),
@@ -124,13 +148,18 @@ function CreateContractForm() {
             <h2>Datos del apartamento</h2>
             <div className='input-group'>
                 <label htmlFor="flatNumber">Numero apartamento:</label>
-                <input
-                    type="text"
-                    id="flatNumber"
-                    value={formData.flatNumber}
-                    onChange={(e) => setFormData({ ...formData, flatNumber: e.target.value })}
-                    placeholder="Numero apartamento"
-                />
+                <select
+                        id="flatNumber"
+                        value={formData.flatNumber}
+                        onChange={(e) => setFormData({ ...formData, flatNumber: e.target.value })}
+                    >
+                        <option value="">Selecciona un apartamento</option>
+                        {apartments.map(apartment => (
+                            <option key={apartment.id} value={apartment.flatNumber}>
+                                Apto: {apartment.flatNumber}, cuenta con: {apartment.inventory}
+                            </option>
+                        ))}
+                    </select>
             </div>
         </div>
         <div className='section'>
