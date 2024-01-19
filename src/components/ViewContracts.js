@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { CompactTable } from "@table-library/react-table-library/compact";
 import { useTheme } from "@table-library/react-table-library/theme";
 import { getTheme } from "@table-library/react-table-library/baseline";
+import "./ViewContract.css"
 
 const ViewContracts = () => {
   const [contracts, setContracts] = useState([]);
@@ -52,11 +53,28 @@ const ViewContracts = () => {
     // Agrega aquí más columnas según tus datos
   ];
 
-  const data = { nodes: contracts };
+  let data = { nodes: contracts };
+  const [isHide, setHide] = React.useState(false);
+
+  data = {
+    nodes: isHide ? data.nodes.filter((node) => !node.isActive) : data.nodes,
+  };
 
   return (
     <div>
       <h1>Contratos</h1>
+      <div>
+        <label htmlFor="complete">
+          Hide Complete:
+          <input
+            id="complete"
+            type="checkbox"
+            checked={isHide}
+            onChange={() => setHide(!isHide)}
+          />
+        </label>
+      </div>
+      <br />
       <CompactTable
         columns={COLUMNS}
         data={data}
