@@ -102,6 +102,7 @@ function CreateContractForm() {
           const responseData = await response.json();
           console.log(responseData);
           // Aquí puedes manejar acciones posteriores al éxito del envío
+          alert('Contrato creado con éxito.');
         } catch (error) {
           console.error('Error al enviar el formulario:', error);
         }
