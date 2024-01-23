@@ -1,0 +1,79 @@
+/* Estilos generales para la tabla */
+.table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 20px;
+  min-width: 600px;
+}
+
+/* Estilos para las celdas y los encabezados */
+.th, .td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+/* Estilos para los encabezados de la tabla */
+.th {
+  background-color: #f2f2f2;
+  color: black;
+}
+
+/* Estilos para filas alternas para mejorar la legibilidad */
+.tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+/* Estilos para resaltar la fila al pasar el mouse */
+.tr:hover {
+  background-color: #ddd;
+}
+
+/* Estilos para manejar el diseño responsivo */
+@media screen and (max-width: 600px) {
+  .table {
+      width: 100%;
+      display: block;
+      overflow-x: auto;
+  }
+
+  .th, .td {
+      white-space: nowrap;
+  }
+}
+
+/* Estilos adicionales para mejorar la apariencia */
+.table-container {
+  overflow-x: auto;
+}
+
+.table-header-group, .table-row-group, .table-row, .table-cell {
+  display: block;
+}
+
+.table-cell {
+  text-align: right;
+  padding-left: 50%;
+  white-space: nowrap;
+}
+
+.table-header-group {
+  background-color: #f2f2f2;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 10px; /* Espacio entre botones */
+}
+
+.detailButton, .terminateButton {
+  padding: 5px 10px; /* Reducir el tamaño del botón */
+  font-size: 0.8rem; /* Reducir el tamaño de la fuente */
+  border: 1px solid #ddd;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.detailButton:hover, .terminateButton:hover {
+  background-color: #8a8181;
+}
