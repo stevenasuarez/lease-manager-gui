@@ -59,7 +59,12 @@ function CreateContractForm() {
         if (formData.flatNumber && formData.flatNumber.includes("Apto:")) {
             flatNumberOnly = formData.flatNumber.split(",")[0].split(":")[1].trim();
         }
-      
+
+        let rentalFeeWithSuffix = formData.rentalFee.trim();
+        if (!rentalFeeWithSuffix.endsWith("MIL PESOS")) {
+            rentalFeeWithSuffix += " MIL PESOS";
+        
+        }
         const contractData = {
           tenant: {
             name: formData.tenantName,
@@ -71,9 +76,9 @@ function CreateContractForm() {
           },
           contractDurationInNumbers: formData.contractDurationInNumbers,
           initialDateNumber: initialDate.getDate().toString(),
-          initialMonth: initialDate.toLocaleString('default', { month: 'long' }).toUpperCase(),
+          initialMonth: initialDate.toLocaleString('en-US', { month: 'long' }).toUpperCase(),
           initialYear: initialDate.getFullYear().toString(),
-          rentalFee: formData.rentalFee,
+          rentalFee: rentalFeeWithSuffix,
           rentalFeeNumber: formData.rentalFeeNumber,
           payDayNumber: formData.payDayNumber,
           payLimitDayNumber: formData.payLimitDayNumber,
@@ -82,7 +87,7 @@ function CreateContractForm() {
           accountName: formData.accountName,
           numberOfTenantsInNumbers: formData.numberOfTenantsInNumbers,
           signingDayNumber: signingDate.getDate().toString(),
-          signingMonth: signingDate.toLocaleString('default', { month: 'long' }).toUpperCase(),
+          signingMonth: signingDate.toLocaleString('en-US', { month: 'long' }).toUpperCase(),
           signingYear: signingDate.getFullYear().toString()
         }
       
@@ -164,7 +169,7 @@ function CreateContractForm() {
         <div className='section'>
             <h2>Datos del contrato</h2>
             <div className='input-group'>
-                <label htmlFor="contractDurationInNumbers">Duracion contrato:</label>
+                <label htmlFor="contractDurationInNumbers">Duracion contrato (En numero):</label>
                 <input
                     type="text"
                     id="contractDurationInNumbers"
@@ -180,16 +185,24 @@ function CreateContractForm() {
                     onChange={(date) => setInitialDate(date)}
                 />
             </div>
-            <div className='input-group'>
-                <label htmlFor="rentalFee">Canon en letras:</label>
-                <input
-                    type="text"
-                    id="rentalFee"
-                    value={formData.rentalFee}
-                    onChange={(e) => setFormData({ ...formData, rentalFee: e.target.value })}
-                    placeholder="Canon en letras"
-                />
+            <div className="input-wrapper rental-fee-wrapper">
+                <div className="input-group">
+                    <label htmlFor="rentalFee">Canon en letras (valor en miles de pesos):</label>
+                    <input
+                        type="text"
+                        id="rentalFee"
+                        value={formData.rentalFee}
+                        onChange={(e) =>
+                            setFormData({ ...formData, rentalFee: e.target.value })
+                        }
+                        placeholder="Canon en letras"
+                        />
+                </div>
+                <small className="tip-text">
+                    Ejemplo: si deseas escribir 900.000 en letras, solo escribe &quot;NOVECIENTOS&quot;.
+                </small>
             </div>
+
             <div className='input-group'>
                 <label htmlFor="rentalFeeNumber">Canon en numeros:</label>
                 <input
