@@ -37,3 +37,14 @@
     margin-bottom: 10px;
     p.solid {border-style: solid;}
   }
+
+  .rental-fee-wrapper .tip-text {
+    font-size: 0.85rem;
+    color: gray;
+    margin-top: 4px; /* Espaciado entre el input y el texto */
+  }
+
+  .input-wrapper {
+    margin-bottom: 15px; /* Espaciado entre campos */
+  }
+  
