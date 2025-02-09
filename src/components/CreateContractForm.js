@@ -51,67 +51,92 @@ function CreateContractForm() {
     const handleBackClick = () => {
         navigate('/'); // Redirige a la página inicial
     };
-  
+
     const handleSubmit = async (event) => {
         event.preventDefault();
-
+    
         let flatNumberOnly = formData.flatNumber;
         if (formData.flatNumber && formData.flatNumber.includes("Apto:")) {
             flatNumberOnly = formData.flatNumber.split(",")[0].split(":")[1].trim();
         }
-
+    
         let rentalFeeWithSuffix = formData.rentalFee.trim();
         if (!rentalFeeWithSuffix.endsWith("MIL PESOS")) {
             rentalFeeWithSuffix += " MIL PESOS";
-        
         }
+    
         const contractData = {
-          tenant: {
-            name: formData.tenantName,
-            idNumber: formData.tenantIdNumber,
-            idIssuePlace: formData.tenantIdIssuePlace
-          },
-          apartment: {
-            flatNumber: flatNumberOnly
-          },
-          contractDurationInNumbers: formData.contractDurationInNumbers,
-          initialDateNumber: initialDate.getDate().toString(),
-          initialMonth: initialDate.toLocaleString('en-US', { month: 'long' }).toUpperCase(),
-          initialYear: initialDate.getFullYear().toString(),
-          rentalFee: rentalFeeWithSuffix,
-          rentalFeeNumber: formData.rentalFeeNumber,
-          payDayNumber: formData.payDayNumber,
-          payLimitDayNumber: formData.payLimitDayNumber,
-          accountType: formData.accountType,
-          bankName: formData.bankName,
-          accountName: formData.accountName,
-          numberOfTenantsInNumbers: formData.numberOfTenantsInNumbers,
-          signingDayNumber: signingDate.getDate().toString(),
-          signingMonth: signingDate.toLocaleString('en-US', { month: 'long' }).toUpperCase(),
-          signingYear: signingDate.getFullYear().toString()
-        }
-      
-        try {
-          const response = await fetch('http://localhost:8080/contracts', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
+            tenant: {
+                name: formData.tenantName,
+                idNumber: formData.tenantIdNumber,
+                idIssuePlace: formData.tenantIdIssuePlace
             },
-            body: JSON.stringify(contractData),
-          });
-      
-          if (!response.ok) {
-            throw new Error('Error en la solicitud');
-          }
-      
-          const responseData = await response.json();
-          console.log(responseData);
-          // Aquí puedes manejar acciones posteriores al éxito del envío
-          alert('Contrato creado con éxito.');
+            apartment: {
+                flatNumber: flatNumberOnly
+            },
+            contractDurationInNumbers: formData.contractDurationInNumbers,
+            initialDateNumber: initialDate.getDate().toString(),
+            initialMonth: initialDate.toLocaleString('en-US', { month: 'long' }).toUpperCase(),
+            initialYear: initialDate.getFullYear().toString(),
+            rentalFee: rentalFeeWithSuffix,
+            rentalFeeNumber: formData.rentalFeeNumber,
+            payDayNumber: formData.payDayNumber,
+            payLimitDayNumber: formData.payLimitDayNumber,
+            accountType: formData.accountType,
+            bankName: formData.bankName,
+            accountName: formData.accountName,
+            numberOfTenantsInNumbers: formData.numberOfTenantsInNumbers,
+            signingDayNumber: signingDate.getDate().toString(),
+            signingMonth: signingDate.toLocaleString('en-US', { month: 'long' }).toUpperCase(),
+            signingYear: signingDate.getFullYear().toString()
+        };
+    
+        try {
+            const response = await fetch('http://localhost:8080/contracts', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(contractData),
+            });
+    
+            if (!response.ok) {
+                throw new Error('Error en la solicitud');
+            }
+    
+            const responseMessage = await response.text();
+    
+            // Mostrar alerta con el mensaje del backend y resumen del contrato
+            alert(`✅ ${responseMessage}\n\n📜 Resumen del Contrato:\n👤 Inquilino: ${formData.tenantName}\n🏠 Apartamento: ${flatNumberOnly}\n💰 Canon de arrendamiento: ${rentalFeeWithSuffix}`);
+    
+            // **Resetea el formulario después de crear el contrato**
+            setFormData({
+                tenantName: '',
+                tenantIdNumber: '',
+                tenantIdIssuePlace: '',
+                flatNumber: '',
+                contractDurationInNumbers: '',
+                initialDateNumber: '',
+                rentalFee: '',
+                rentalFeeNumber: '',
+                payDayNumber: '',
+                payLimitDayNumber: '',
+                accountType: '',
+                bankName: '',
+                accountName: '',
+                numberOfTenantsInNumbers: '',
+                signingDate: ''
+            });
+    
+            // **Resetea las fechas a la fecha actual**
+            setInitialDate(new Date());
+            setSigningDate(new Date());
+    
         } catch (error) {
-          console.error('Error al enviar el formulario:', error);
+            console.error('Error al enviar el formulario:', error);
+            alert(`❌ Error al crear el contrato: ${error.message}`);
         }
-      };
+    };
   
     return (
       <form onSubmit={handleSubmit}>
