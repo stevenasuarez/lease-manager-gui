@@ -1,6 +1,7 @@
 import React from 'react';
 import Welcome from './Welcome';
 import Navigation from './Navigation';
+import './HomePage.css';
 
 function HomePage() {
   return (
