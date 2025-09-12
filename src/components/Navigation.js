@@ -1,16 +1,45 @@
+// src/components/Navigation.jsx
 import React from 'react';
-import { Link } from 'react-router-dom';
-import './Navigation.css'; // Asegúrate de crear este archivo CSS con los estilos
+import ActionCard from './ActionCard';
+import { FaPlus, FaEye, FaEdit, FaTrash } from 'react-icons/fa';
+import './Navigation.css';
 
 function Navigation() {
   return (
-    <nav className="navigation">
-      <Link to="/create-contract"><button className="button">Crear Contrato</button></Link>
-      <Link to="/view-contracts"><button className="button">Ver Contratos</button></Link>
-      <Link to="/update-contract"><button className="button">Actualizar Contrato</button></Link>
-      <Link to="/delete-contract"><button className="button">Borrar Contrato</button></Link>
-      {/* Agrega más botones según las opciones que necesites */}
-    </nav>
+    <div className="navigation-grid">
+      <ActionCard
+        icon={<FaPlus />}
+        title="Crear Contrato"
+        description="Inicia un nuevo contrato de arrendamiento desde cero."
+        buttonLabel="Crear"
+        color="blue"
+        to="/create-contract"
+      />
+      <ActionCard
+        icon={<FaEye />}
+        title="Ver Contratos"
+        description="Consulta todos los contratos activos e históricos."
+        buttonLabel="Ver"
+        color="green"
+        to="/view-contracts"
+      />
+      <ActionCard
+        icon={<FaEdit />}
+        title="Actualizar Contrato"
+        description="Modifica la información de un contrato existente."
+        buttonLabel="Actualizar"
+        color="yellow"
+        to="/update-contract"
+      />
+      <ActionCard
+        icon={<FaTrash />}
+        title="Borrar Contrato"
+        description="Elimina un contrato de forma permanente."
+        buttonLabel="Borrar"
+        color="red"
+        to="/delete-contract"
+      />
+    </div>
   );
 }
 
